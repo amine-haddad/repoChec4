@@ -35,25 +35,25 @@ class Loisir
      */
     private $adresse;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="loisirs")
-     */
-    private $category;
+
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="loisirs")
      */
     private $user;
 
-    /**
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private $created_At;
+    
 
     /**
      * @ORM\OneToMany(targetEntity=Detail::class, mappedBy="loisir")
      */
     private $details;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="loisirs")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $category;
 
     
 
@@ -105,17 +105,7 @@ class Loisir
         return $this;
     }
 
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
+    
 
     /**
      * @return Collection|User[]
@@ -141,17 +131,7 @@ class Loisir
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_At;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $created_At): self
-    {
-        $this->created_At = $created_At;
-
-        return $this;
-    }
+    
 
     /**
      * @return Collection|Detail[]
@@ -179,6 +159,18 @@ class Loisir
                 $detail->setLoisir(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

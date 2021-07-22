@@ -27,11 +27,14 @@ class Category
     /**
      * @ORM\OneToMany(targetEntity=Loisir::class, mappedBy="category")
      */
-    private $user;
+    private $loisirs;
+
+    
 
     public function __construct()
     {
         $this->user = new ArrayCollection();
+        $this->loisirs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -54,30 +57,32 @@ class Category
     /**
      * @return Collection|Loisir[]
      */
-    public function getUser(): Collection
+    public function getLoisirs(): Collection
     {
-        return $this->user;
+        return $this->loisirs;
     }
 
-    public function addUser(Loisir $user): self
+    public function addLoisir(Loisir $loisir): self
     {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-            $user->setCategory($this);
+        if (!$this->loisirs->contains($loisir)) {
+            $this->loisirs[] = $loisir;
+            $loisir->setCategory($this);
         }
 
         return $this;
     }
 
-    public function removeUser(Loisir $user): self
+    public function removeLoisir(Loisir $loisir): self
     {
-        if ($this->user->removeElement($user)) {
+        if ($this->loisirs->removeElement($loisir)) {
             // set the owning side to null (unless already changed)
-            if ($user->getCategory() === $this) {
-                $user->setCategory(null);
+            if ($loisir->getCategory() === $this) {
+                $loisir->setCategory(null);
             }
         }
 
         return $this;
     }
+
+    
 }
