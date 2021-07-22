@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use app\Entity\Category;
+use App\Entity\Loisir;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,11 +22,21 @@ class LoisirController extends AbstractController
 
     {
 
-        return $this->render('loisir/index.html.twig', [
+        $loisirs = $this->getDoctrine()
 
-            'website' => 'Loisirs',
+            ->getRepository(Loisir::class)
+            ->findAll();
+        return $this->render(
+            'loisir/index.html.twig',
+            [
 
-        ]);
+                'numberPrograms'=>count($loisirs)." programs dans le catalogue",
+                'website' => 'Loisirs',
+                
+                'loisirs' => $loisirs
+            ]
+        );
+        
     }
 
     /**
@@ -39,12 +51,36 @@ class LoisirController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="show", methods={"GET"},requirements={"id"="\d+"})
+     * 
      */
-    public function show()
-    {
+    
+
+    /**
+     * @Route("/{id}", name="show", methods={"GET"},requirements={"id"="\d+"})
+     * 
+     * 
+     * 
+     * @return Response
+     */
+    public function show(Loisir $loisirId): Response
+    {;
+        if (!$loisirId) {
+            throw $this->createNotFoundException(
+                'No loisir with id : ' . $loisirId . ' found in program\'s table.'
+            );
+        }
+        $category = $loisirId->getCategory();
+        if (!$category) {
+            throw $this->createNotFoundException(
+                'No category with id : ' . $category . ' found in program\'s table.'
+            );
+        }
         return $this->render('loisir/show.html.twig', [
-            'website' => 'Loisirs',
+
+            'categories' => $category,
+           
+            
+            
         ]);
     }
 }
