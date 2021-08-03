@@ -35,15 +35,6 @@ class Loisir
      */
     private $adresse;
 
-
-
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="loisirs")
-     */
-    private $user;
-
-    
-
     /**
      * @ORM\OneToMany(targetEntity=Detail::class, mappedBy="loisir")
      */
@@ -54,6 +45,11 @@ class Loisir
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="loisirs")
+     */
+    private $user;
 
     
 
@@ -107,29 +103,7 @@ class Loisir
 
     
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUser(): Collection
-    {
-        return $this->user;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        $this->user->removeElement($user);
-
-        return $this;
-    }
+    
 
     
 
@@ -171,6 +145,30 @@ class Loisir
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUser(): Collection
+    {
+        return $this->user;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->user->contains($user)) {
+            $this->user[] = $user;
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        $this->user->removeElement($user);
 
         return $this;
     }

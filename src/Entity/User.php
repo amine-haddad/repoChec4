@@ -39,10 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $password;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Loisir::class, mappedBy="user")
-     */
-    private $loisirs;
+   
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -58,6 +55,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="integer")
      */
     private $phoneNumber;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Loisir::class, mappedBy="user")
+     */
+    private $loisirs;
 
     public function __construct()
     {
@@ -153,32 +155,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    /**
-     * @return Collection|Loisir[]
-     */
-    public function getLoisirs(): Collection
-    {
-        return $this->loisirs;
-    }
-
-    public function addLoisir(Loisir $loisir): self
-    {
-        if (!$this->loisirs->contains($loisir)) {
-            $this->loisirs[] = $loisir;
-            $loisir->addUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLoisir(Loisir $loisir): self
-    {
-        if ($this->loisirs->removeElement($loisir)) {
-            $loisir->removeUser($this);
-        }
-
-        return $this;
-    }
+    
 
     public function getName(): ?string
     {
@@ -212,6 +189,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhoneNumber(int $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Loisir[]
+     */
+    public function getLoisirs(): Collection
+    {
+        return $this->loisirs;
+    }
+
+    public function addLoisir(Loisir $loisir): self
+    {
+        if (!$this->loisirs->contains($loisir)) {
+            $this->loisirs[] = $loisir;
+            $loisir->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLoisir(Loisir $loisir): self
+    {
+        if ($this->loisirs->removeElement($loisir)) {
+            $loisir->removeUser($this);
+        }
 
         return $this;
     }

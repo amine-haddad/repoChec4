@@ -77,10 +77,7 @@ class LoisirController extends AbstractController
         }
         return $this->render('loisir/show.html.twig', [
 
-            'categories' => $category,
-           
-            
-            
+            'categories' => $category,      
         ]);
     }
 }
